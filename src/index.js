@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 import Admin from './admin'
+import Router from './router'
 
-ReactDOM.render(<Admin />, document.getElementById('root'));
+ReactDOM.render(<Router />, document.getElementById('root'));
 serviceWorker.unregister();
