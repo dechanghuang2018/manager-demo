@@ -9,7 +9,12 @@ const Option = Select.Option;
 const TextArea = Input.TextArea
 class FormRegister extends React.Component {
 
-    state={}
+    state = {}
+
+    handleSubmit = () => {
+        let userInfo = this.props.form.getFieldsValue();
+        console.log(JSON.stringify(userInfo))
+    }
 
     getBase64 = (img, callback) => {
         const reader = new FileReader();
@@ -42,6 +47,15 @@ class FormRegister extends React.Component {
             wrapperCol: {
                 xs: 24,
                 sm: 12
+            }
+        }
+        const offsetLayout = {
+            wrapperCol: {
+                xs: 24,
+                sm: {
+                    span: 12,
+                    offset: 4
+                }
             }
         }
         return (
@@ -180,10 +194,20 @@ class FormRegister extends React.Component {
                                         action="//jsonplaceholder.typicode.com/posts/"
                                         onChange={this.handleChange}
                                     >
-                                    {this.state.userImg?<img src={this.state.userImg} />:<Icon type="plus" />}
+                                        {this.state.userImg ? <img src={this.state.userImg} /> : <Icon type="plus" />}
                                     </Upload>
                                 )
                             }
+                        </FormItem>
+                        <FormItem {...offsetLayout} labelCol={{}}>
+                            {
+                                getFieldDecorator('userImg')(
+                                    <Checkbox>我已阅读过<a href="#">登录协议</a></Checkbox>
+                                )
+                            }
+                        </FormItem>
+                        <FormItem {...offsetLayout} >
+                            <Button type="primary" onClick={this.handleSubmit}>注册</Button>
                         </FormItem>
                     </Form>
                 </Card>

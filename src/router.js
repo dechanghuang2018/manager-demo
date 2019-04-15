@@ -13,6 +13,7 @@ import Message from './pages/ui/message'
 import Tab from './pages/ui/tabs'
 import FormLogin from './pages/form/login'
 import FormRegister from './pages/form/register'
+import BasicTable from './pages/table/basicTable'
 
 export default class IRouter extends React.Component {
     render() {
@@ -31,6 +32,7 @@ export default class IRouter extends React.Component {
                                 <Route path="/admin/ui/tabs" component={Tab} />
                                 <Route path="/admin/form/login" component={FormLogin} />
                                 <Route path="/admin/form/reg" component={FormRegister} />
+                                <Route path="/admin/table/basic" component={BasicTable} />
                                 <Route component={NoMatch} />
                             </Switch>
                         </Admin>
