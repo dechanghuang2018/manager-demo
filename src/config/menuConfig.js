@@ -29,29 +29,29 @@ const menuList = [
             },
             {
                 title:'Tab页签',
-                key:'/ui/tabs',
+                key:'/admin/ui/tabs',
             },
             {
                 title:'图片画廊',
-                key:'/ui/gallery',
+                key:'/admin/ui/gallery',
             },
             {
                 title:'轮播图',
-                key:'/ui/carousel',
+                key:'/admin/ui/carousel',
             }
         ]
     },
     {
         title:'表单',
-        key:'/form',
+        key:'/admin/form',
         children:[
             {
                 title:'登录',
-                key:'/form/login',
+                key:'/admin/form/login',
             },
             {
                 title:'注册',
-                key:'/form/reg',
+                key:'/admin/form/reg',
             }
         ]
     },
