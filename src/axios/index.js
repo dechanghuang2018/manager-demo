@@ -1,17 +1,53 @@
 import Jsonp from 'jsonp'
-
-export default class Axios{
-    static jsonp(options){
-        return new Promise((resolve, reject)=>{
+import axios from 'axios'
+import { Modal } from 'antd';
+export default class Axios {
+    static jsonp(options) {
+        return new Promise((resolve, reject) => {
             Jsonp(options.url, {
-                param:'callback'
-            }, function(err, response){
-                if(response.status == 'success'){
+                param: 'callback'
+            }, function (err, response) {
+                if (response.status == 'success') {
                     resolve(response)
-                }else{
+                } else {
                     reject(response.message)
                 }
             })
         })
+    }
+
+    static ajax(options) {
+        let loading;
+        if (options.data && options.data.isShowLoading !== false) {
+            loading = document.getElementById('ajaxLoading');
+            loading.style.display = 'block';
+        }
+        let baseApi = 'https://www.easy-mock.com/mock/5cb4835b462c851178e00eb5/api'
+        return new Promise((resolve, reject) => {
+            axios({
+                url: options.url,
+                method: 'get',
+                baseURL: baseApi,
+                timeout: 5000,
+                params: (options.data && options.data.params) || ''
+            }).then((response) => {
+                if (options.data && options.data.isShowLoading !== false) {
+                    loading = document.getElementById('ajaxLoading');
+                    loading.style.display = 'none';
+                }
+                if (response.status == '200') {
+                    if (response.data.code == 0) {
+                        resolve(response.data);
+                    } else {
+                        Modal.info({
+                            title: "提示",
+                            message: response.msg
+                        })
+                    }
+                } else {
+                    reject(response.data);
+                }
+            })
+        });
     }
 }
