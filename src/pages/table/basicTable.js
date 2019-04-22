@@ -1,11 +1,16 @@
 import React from 'react'
 import { Card, Table, Button, Modal, message } from "antd"
 import axios from './../../axios/index'
+import Util from './../../utils/utils';
 
 export default class BasicTable extends React.Component {
 
     state={
         dataSource2:[]
+    } 
+
+    params={
+        page:1
     }
 
     componentDidMount() {
@@ -48,19 +53,27 @@ export default class BasicTable extends React.Component {
     }
     // 动态获取mock数据
     request = () =>{
+        let _this = this;
         axios.ajax({
             url: '/table/list',
             data:{
                 params:{
-                    page:1
+                    page:this.params.page
                 }
             }
         }).then((res)=>{
             if(res.code == 0){
+                res.result.list.map((item, index)=>{
+                    item.key = index;
+                })
                 this.setState({
-                    dataSource2:res.result,
+                    dataSource2:res.result.list,
                     selectedRowKeys:[],
-                    selectedRows:null
+                    selectedRows:null,
+                    pagination: Util.pagination(res, (current)=>{
+                        _this.params.page = current;
+                        this.request();
+                    })
                 })
             }
         })
@@ -77,17 +90,17 @@ export default class BasicTable extends React.Component {
     handleDelete = (()=>{
         let rows = this.state.selectedRows;
         let ids = [];
-        rows.map((item)=>{
-            ids.push(item.id)
-        });
-        Modal.confirm({
-            title:'删除提示',
-            content:'您确定要删除这些数据吗？',
-            onOk:()=>{
-                message.success('删除成功')
-                this.request();
-            }
-        })
+        // rows.map((item)=>{
+        //     ids.push(item.id)
+        // });
+        // Modal.confirm({
+        //     title:'删除提示',
+        //     content:'您确定要删除这些数据吗？',
+        //     onOk:()=>{
+        //         message.success('删除成功')
+        //         this.request();
+        //     }
+        // })
     })
 
     render() {
@@ -176,6 +189,15 @@ export default class BasicTable extends React.Component {
                         rowSelection={rowCheckSelection}
                         columns={columns}
                         dataSource={this.state.dataSource2}
+                    />
+                </Card>
+                <Card title="Mock-表格分页" style={{margin: '10px 0'}}>
+                    <Table
+                        bordered
+                        rowSelection={rowCheckSelection}
+                        columns={columns}
+                        dataSource={this.state.dataSource2}
+                        pagination={this.state.pagination}
                     />
                 </Card>
             </div>
